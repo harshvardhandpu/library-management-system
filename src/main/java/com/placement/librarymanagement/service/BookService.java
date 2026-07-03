@@ -4,6 +4,7 @@ import com.placement.librarymanagement.dto.BookRequest;
 import com.placement.librarymanagement.dto.BookResponse;
 import com.placement.librarymanagement.entity.Book;
 import com.placement.librarymanagement.exception.BookNotFoundException;
+import com.placement.librarymanagement.exception.BorrowException;
 import com.placement.librarymanagement.repository.BookRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -47,11 +48,15 @@ public class BookService {
         Book book = findBookById(bookId);
         int borrowedCopies = book.getQuantity() - book.getAvailableQuantity();
 
+        if (request.getQuantity() < borrowedCopies) {
+            throw new BorrowException("Book quantity cannot be less than currently borrowed copies");
+        }
+
         book.setTitle(request.getTitle());
         book.setAuthor(request.getAuthor());
         book.setIsbn(request.getIsbn());
         book.setQuantity(request.getQuantity());
-        book.setAvailableQuantity(Math.max(request.getQuantity() - borrowedCopies, 0));
+        book.setAvailableQuantity(request.getQuantity() - borrowedCopies);
 
         return mapToResponse(bookRepository.save(book));
     }
