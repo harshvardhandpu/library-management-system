@@ -1,0 +1,28 @@
+#!/bin/sh
+# Pre-commit hook — runs lint-staged and full test suite
+
+echo "🔄 Running pre-commit checks..."
+
+cd frontend
+
+# Stage 1: Lint staged files
+echo "  📝 Linting staged files..."
+npx --no-install lint-staged
+LINT_EXIT=$?
+
+if [ $LINT_EXIT -ne 0 ]; then
+  echo "  ❌ Linting failed. Aborting commit."
+  exit 1
+fi
+
+# Stage 2: Run full test suite
+echo "  🧪 Running tests..."
+npm test
+TEST_EXIT=$?
+
+if [ $TEST_EXIT -ne 0 ]; then
+  echo "  ❌ Tests failed. Aborting commit."
+  exit 1
+fi
+
+echo "✅ All pre-commit checks passed!"
