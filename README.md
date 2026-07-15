@@ -44,14 +44,39 @@ A full-stack library management application with a **Spring Boot 3 backend** and
 
 ## Quick Start
 
-### 1. Clone & Configure
+### Option A: Docker (recommended)
+
+```bash
+docker compose up --build
+```
+
+This starts three containers:
+- **MariaDB** on port `3306`
+- **Backend API** on port `8080`
+- **Frontend UI** on port `5173`
+
+Visit **http://localhost:5173** to use the application.
+
+Stop with:
+```bash
+docker compose down
+```
+
+To reset the database:
+```bash
+docker compose down -v
+```
+
+### Option B: Manual Setup
+
+#### 1. Clone & Configure
 
 ```bash
 git clone https://github.com/harshvardhandpu/library-management-system.git
 cd library-management-system
 ```
 
-### 2. Backend Setup
+#### 2. Backend Setup
 
 Create a MariaDB/MySQL database:
 
@@ -75,7 +100,7 @@ mvn spring-boot:run
 
 The API will be available at `http://localhost:8080`.
 
-### 3. Frontend Setup
+#### 3. Frontend Setup
 
 ```bash
 cd frontend
@@ -212,7 +237,10 @@ Frontend: 184 tests across 16 test files
 - Pagination and sorting for list APIs
 - Book search by title, author, or ISBN
 - Due dates and fine calculation
-- Docker Compose for one-command setup
+- JWT-based authentication + Spring Security
+- Pagination and sorting for list APIs
+- Book search by title, author, or ISBN
+- Due dates and fine calculation
 
 ---
 
